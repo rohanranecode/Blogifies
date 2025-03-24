@@ -1,0 +1,39 @@
+@layout SettingsLayout
+@page "/admin/settings/about/"
+@inject HttpClient _http
+@inject IStringLocalizer<Resource> _localizer
+@inject IJSRuntime JSRuntime
+
+<BlogPageTitle Title="@_localizer["about"]" />
+
+
+
+@if (AboutModel != null)
+{
+    <h1 class="section-title">@_localizer["specification"]</h1>
+    <div class="section-content">
+        <ul class="about-info">
+            <li class="about-info-item">
+                <label class="about-info-label">@_localizer["version"]:</label>
+                <div class="about-info-value">@AboutModel.Version</div>
+            </li>
+            <li class="about-info-item">
+                <label class="about-info-label">@_localizer["operating-system"]:</label>
+                <div class="about-info-value">@AboutModel.OperatingSystem</div>
+            </li>
+            <li class="about-info-item">
+                <label class="about-info-label">@_localizer["database-provider"]:</label>
+                <div class="about-info-value">@AboutModel.DatabaseProvider</div>
+            </li>
+        </ul>
+    </div>
+}
+
+@code {
+   protected AboutModel AboutModel { get; set; }
+
+   protected override async Task OnInitializedAsync()
+   {
+      AboutModel = await _http.GetFromJsonAsync<AboutModel>($"api/about");
+   }
+}

@@ -1,0 +1,42 @@
+@using Blogifier.Shared
+@using Blogifier.Shared.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> _localizer
+@{
+    var request = Url.ActionContext.HttpContext.Request;
+    var absoluteUrl = $"{request.Scheme}://{request.Host.ToUriComponent()}{request.PathBase.ToUriComponent()}";
+
+    var siteTitle = "Fieldside Stories";
+    var siteDesc = "Your Sports Storyline";
+
+    @* TODO: Customfield *@
+    var siteMark = "titleDesc";
+    var siteLogo = "themes/standard/img/logo-black.png";
+}
+
+<header class="header">
+    <div class="container d-md-flex align-items-md-center">
+        <section class="header-sign py-4 py-md-0 text-center text-md-start me-md-auto">
+            @if (siteMark == "logo")
+            {
+                <a class="header-logo" href="@absoluteUrl">
+                    <img class="header-logo-img" src="~/@siteLogo" alt="@siteTitle @_localizer["logo"]">
+                </a>
+            }
+            else if (siteMark == "title")
+            {
+                <a class="header-title" href="@absoluteUrl">@siteTitle</a>
+            }
+            else if (siteMark == "titleDesc")
+            {
+                <a class="header-title d-flex align-items-center" href="@absoluteUrl">
+                    <img src="https://content.sportslogos.net/logos/11/450/full/portland_winterhawks_logo_primary_2022_sportslogosnet-5013.png" alt="IPL Logo" style="height: 40px; margin-right: 10px;">
+                    @siteTitle
+                </a>
+                <p class="header-desc" style="margin-left: 60px;">@siteDesc</p>
+            }
+        </section>
+
+        <partial name="../components/nav.cshtml" />
+    </div>
+</header>
